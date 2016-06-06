@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		body {
+			text-align: center;
+		}
+		.viz {
+			margin: 0px auto;
+			display: block;
+			background-color: #eee;
+		}
+	</style>
+</head>
+<body>
+	<h1>Transitions Starting Template</h1>
+	<div class="row">
+		<svg class="viz" width="600" height="400"></svg>
+	</div>
+
+	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+	<script type="text/javascript">
+
+		// Initializing SVG canvas
+		var canvas = d3.select('.viz');
+		var width = canvas.node().getBoundingClientRect().width;	// rendered width of svg
+		var height = canvas.node().getBoundingClientRect().height;	// rendered height of svg
+		var data = [4, 8, 15, 16, 23, 42, 7, 12, 27, 19];	// initial sample data
+		
+		// Drawing a graph on page load
+		canvas.selectAll('circle').data(data)
+			.enter().append('circle')
+				.attr('fill', 'red')
+				.attr('r', 13)
+				.attr('cx', function(d, i) {
+					return (i + 1) * 50;
+				})
+				.attr('cy', function(d) {
+					return height - d * 5;
+				});
+
+	</script>
+</body>
+</html>

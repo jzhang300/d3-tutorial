@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		body {
+			text-align: center;
+		}
+		.viz {
+			margin: 0px auto;
+			display: block;
+			background-color: #eee;
+		}
+		.update {
+			margin-top: 1rem;
+		}
+	</style>
+</head>
+<body>
+	<h1>Transitions Starting Template</h1>
+	<div class="row">
+		<svg class="viz" width="600" height="400"></svg>
+	</div>
+
+	<button class="update">Update Data</button>
+
+	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+	<script type="text/javascript">
+
+		// Initializing SVG canvas
+		var canvas = d3.select('.viz');
+		var width = canvas.node().getBoundingClientRect().width;	// rendered width of svg
+		var height = canvas.node().getBoundingClientRect().height;	// rendered height of svg
+		var data = [4, 8, 15, 16, 23, 42, 7, 12, 27, 19];	// initial sample data
+		
+		// Drawing a graph on page load
+		canvas.selectAll('circle').data(data)
+			.enter().append('circle')
+				.attr('fill', 'red')
+				.attr('fill-opacity', '0')
+				.attr('r', 13)
+				.attr('cx', function(d, i) {
+					return (i + 1) * 50;
+				})
+				.attr('cy', height)
+				.transition()
+					.duration(1000)
+					.ease(d3.ease("elastic"))
+					.attr('fill-opacity', '1')
+					.attr('cy', function(d) {
+						return height - d * 5;
+					})
+					.delay(function(d, i) {
+						return i * 100;
+					});
+
+		// Updating graph with a completely new data set.
+		var update = function() {
+			// var newData = [39, 1, 30, 8, 40, 9, 30, 8];
+			var newData = randomData();
+			var selection = canvas.selectAll('circle').data(newData);
+
+			// code for changing values of existing elements
+			selection
+				.transition()
+					.duration(1000)
+					.attr('cy', function(d) {
+						return height - d * 5;
+					})
+					.attr('cx', function(d, i) {
+						return (i + 1) * 50;
+					})
+					.attr('r', 13)
+					.attr('fill-opacity', '1')
+					.ease(d3.ease("elastic"))
+					.delay(function(d, i) {
+						return i * 100;
+					});
+
+			// code for when new elements are added
+			selection.enter()
+				.append('circle')
+					.attr('fill', 'red')
+					.attr('fill-opacity', '0')
+					.attr('r', 13)
+					.attr('cx', function(d, i) {
+						return (i + 1) * 50;
+					})
+					.attr('cy', height)
+					.transition()
+						.duration(1000)
+						.ease(d3.ease("elastic"))
+						.attr('fill-opacity', '1')
+						.attr('cy', function(d) {
+							return height - d * 5;
+						})
+						.delay(function(d, i) {
+							return i * 100;
+						});
+
+			// code for when elements are deleted
+			selection.exit()
+				.transition()
+					.duration(1000)
+					.ease(d3.ease("elastic"))
+					.delay(function(d, i) {
+						return i * 100;
+					})
+					.attr('r', 0)
+					.remove();
+
+		};
+
+		// a random data array generator
+		var randomData = function() {
+			var data = [];
+			var length = Math.floor(Math.random() * 11);
+			for (var i = 0; i < length; i++) {
+				data.push(Math.floor(Math.random() * 50));
+			}
+			return data;
+		};
+
+		// update graph on button click
+		document.querySelector('.update').addEventListener("click", function() {
+			update();
+		});
+
+	</script>
+</body>
+</html>

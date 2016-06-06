@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Your first divs</title>
+	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+</head>
+<body>
+
+</body>
+<script type = "text/javascript">
+
+var body = d3.select('body');
+
+var p = body.selectAll('p').data(["red","yellow","blue"]);
+
+p.enter().append('p').text(function(d){return d}).style("border", function(d){return "1px solid " + d});
+
+body.selectAll('p').data(["red","yellow"]).exist().remove();
+
+
+body.selectAll('p').data(["red","yellow","blue","orange"]).enter().append('p').text(function(d){return d}).style("border", function(d){return "1px solid " + d});
+
+body.selectAll('p').data(["red","orange","blue","orange"]).text(function(d){return d}).style("border", function(d){return "1px solid " + d});
+
+</script>
+</html>
